@@ -1,0 +1,66 @@
+.fee-table-add {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.request-table__head {
+  &::before {
+    top: 8px;
+    bottom: 8px
+  }
+  &::after {
+    top: 8px;
+    bottom: 8px
+  }
+}
+
+.fee-table__table tbody tr {
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  &:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+} 
+.fee-table__table{
+  min-width: 800px;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+
+.fee-table__table .employee-list {
+  display: flex;
+  justify-content: center;
+}
+
+.empty-row {
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  background: rgba(0,0,0,.03);
+  border: 1px solid #dddddd;
+  &:hover {
+    background: rgba(0,0,0,.05);
+  }
+}
+
+.sortby-th {
+  cursor: pointer;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+
+@media screen and (max-width:1000px) {
+  .fee-manager_table {
+    overflow-x: scroll;
+  }
+}

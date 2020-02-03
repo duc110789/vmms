@@ -1,0 +1,82 @@
+.request-table__head {
+  &::before {
+    top: 8px;
+    bottom: 8px
+  }
+  &::after {
+    top: 8px;
+    bottom: 8px
+  }
+}
+
+.fee-table__table tbody tr {
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  &:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+} 
+.fee-table__table{
+  min-width: 800px
+}
+
+
+.fee-table__table .employee-list {
+  display: flex;
+  justify-content: center;
+}
+
+.empty-row {
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  background: rgba(0,0,0,.03);
+  border: 1px solid #dddddd;
+  &:hover {
+    background: rgba(0,0,0,.05);
+  }
+}
+
+.sortby-th {
+  cursor: pointer;
+}
+
+@media screen and (max-width:1000px) {
+  .fee-manager_table {
+    overflow-x: scroll;
+  }
+}
+.modal-content {
+  border-radius: 0;
+}
+.modal-title {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.modal-footer {
+  padding: 10px;
+  border-top-color: #e4e9ee;
+  box-shadow: none;
+  background-color: #eff3f8;
+  button {
+    i {
+      margin-right: 5px;
+    }
+  }
+}
+.modal-header {
+  display: block;
+  .close {
+    padding: 1rem 1rem;
+    position: absolute;
+    margin: 0;
+    right: 0;
+    top: 0;
+  }
+}

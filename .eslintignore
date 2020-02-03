@@ -1,0 +1,9 @@
+package.json
+tests/*
+src/**/*.css
+src/**/*.scss
+src/**/*.json
+src/**/*.test.js
+.cicd/*
+.eslintignore
+src/utils/handleString.js

@@ -1,0 +1,71 @@
+.apply-button {
+  display: block;
+  text-align: center;
+  button {
+    border-radius: 0;
+    width: 90px;
+    height: 42px;
+    background-color: #0177bc!important;
+    border-color: #0177bc;
+    color: white;
+    padding: 0;
+    &:hover {
+      color: white;
+    }
+  }
+}
+.table-bordered, td, th {
+  border-radius: 0!important;
+  border: 1px solid #ddd !important;
+}
+.list-fee-edit {
+  table {
+    td {
+      padding: 4px 6px;
+      vertical-align: middle;
+    }
+    tbody tr {
+      &:hover {
+        background: rgba(0, 0, 0, 0.05);
+      }
+      &:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+}
+.modal-content {
+  border-radius: 0;
+}
+.modal-title {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.modal-footer {
+  padding: 10px;
+  border-top-color: #e4e9ee;
+  box-shadow: none;
+  background-color: #eff3f8;
+  button {
+    color: #fff;
+    i {
+      margin-right: 5px;
+    }
+    &:hover {
+      background-color: #b3bbc2;
+      border-color: #acb5bc;
+      color: #fff;
+    }
+  }
+}
+.modal-header {
+  display: block;
+  .close {
+    padding: 1rem 1rem;
+    position: absolute;
+    margin: 0;
+    right: 0;
+    top: 0;
+  }
+}

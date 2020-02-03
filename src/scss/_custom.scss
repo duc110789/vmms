@@ -1,0 +1,212 @@
+// Here you can add other styles
+.app-footer {
+	display: none;
+}
+.title-header {
+  color: red;
+}
+.react-datepicker-wrapper {
+  width: 100%;
+}
+.btn-search {
+	.btn-primary {
+		color: #fff;
+		background-color: #20a8d8;
+		border-color: #20a8d8;
+		&:hover {
+			background-color: #08779e;
+		}
+	}
+}
+/*Start table*/
+.table-common {
+	thead {
+		th {
+			font-size: 11px;
+			background: #f0f1f2;
+		}
+	}
+	tbody {
+		tr {
+			td {
+				padding: 8px 4px;
+				vertical-align: middle;
+				max-width: 140px;
+			}
+		}
+	}
+}
+.pag-left {
+	display: inline-block;
+	.select-pagination {
+		display: inherit;
+    width: 100px;
+    margin: 0 10px;
+	}
+}
+.pag-right {
+	float: right;
+}
+/*End table*/
+
+/*Start Nav*/
+ul.nav-dropdown-items {
+	.nav-icon {
+		display: none !important;
+	}
+}
+.sidebar {
+	.nav-dropdown-items {
+		.nav-link {
+			padding-left: 2.2rem;
+		}
+	}
+	.nav-link {
+		padding: 0.75rem 0.6rem;
+	}
+}
+/*End Nav*/  
+
+/*Start Fee manager*/
+.gp-add-fee,
+.gp-add-merchant-list,
+.gp-add-merchant-info {
+	padding: 15px;
+	box-shadow: 0px 0px 50px 0px rgba(0, 0, 0, 0.1);
+	margin-bottom: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.modal-body {
+	.gp-add-fee {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+.card-header {
+	.text-bold {
+		font-size: 18px;
+		font-weight: 700;
+	}
+}
+.permission-title {
+	margin-left: 1.25rem;
+}
+.form-submit {
+	width: 100%;
+}
+.icon-fee {
+	button {
+		background-color: inherit;
+		border: 0;
+		padding: 5px;
+		&:hover {
+			background-color: inherit;
+		}
+	}
+}
+.table-pagination-padding {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.icon-info {
+	color: #4caf50;
+}
+.icon-note {
+	color: #0177bc;
+}
+.icon-lock {
+	color: #dd5a43;
+}
+.icon-lock-open {
+	color: #4caf50;
+}
+.icon-info, .icon-note, .icon-lock, .icon-lock-open, .icon-trash {
+	font-weight: 600;
+}
+.badge {
+	padding: 4px 6px;
+} 
+.bigger-150.btn {
+  background: #989898 !important;
+  font-size: 14px;
+	color: white;
+	&:hover {
+		background: #807b7b !important
+	}
+}
+/*End manager*/ 
+
+.label-left {
+	text-align: left;
+	label {
+		font-size: 14px;
+	}
+}
+.account-settings-pointer {
+	height: 38px;
+	line-height: 38px;
+}
+.form-check-input {
+	margin-top: 0.75rem;
+}
+.permission-title {
+	&:hover {
+		cursor: pointer;
+	}
+}
+.modal-footer {
+	justify-content: center;
+}
+.badge-info, .badge-pink {
+	color: #fff;
+} 
+.badge-pink {
+	background-color: #d6487e!important;
+}
+
+.content-word {
+	word-break: break-all;
+}
+
+.btn-search-table {
+	border-radius: 0;
+	color: #fff;
+	background-color: #20A8D8;
+}
+
+.btn-search-table {
+	&:hover {
+		background-color: #08779e;
+		color: #fff;
+	}
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
