@@ -59,8 +59,7 @@ class ListMerchantPage extends React.Component {
       };
       isSuccessInEditMerchantReducer();
       loadTableDefault(defaultTable);
-    }
-    else {
+    } else {
       isSuccessInEditMerchantReducer();
       loadTableDefault(dataSearch);
     }
@@ -88,6 +87,7 @@ class ListMerchantPage extends React.Component {
   render() {
     const { currentPage, perPage } = this.state;
     const { tdata } = this.props;
+    console.log('tdata', tdata);
     const totalRow = tdata && tdata.totalRow;
     const showingOption = `Hiển thị ${currentPage * perPage - perPage + 1} - ${(currentPage * perPage) > totalRow ? totalRow : (currentPage * perPage)} của ${totalRow} bản ghi`;
     return (

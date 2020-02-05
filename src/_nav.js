@@ -12,10 +12,6 @@ export default {
           name: 'Quản lý module phí thu Merchant',
           url: '/fee-merchant/list',
         },
-        {
-          name: 'Phí VNPAY trả Đơn vị thanh toán',
-          url: '/fee-payment/list',
-        },
       ],
     },
     {
@@ -25,6 +21,10 @@ export default {
         {
           name: 'Quản lý bảng phí',
           url: '/vmms/fee/list',
+        },
+        {
+          name: 'Phí VNPAY trả Đơn vị thanh toán',
+          url: '/fee-payment/list',
         },
       ],
     },
