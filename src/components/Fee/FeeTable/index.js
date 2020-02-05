@@ -13,7 +13,9 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import CONST_VARIABLE from '../../../utils/constants';
 import Table from './Table';
-import { getFeeTables, getFeeCode } from '../../../apis/fee-manager';
+import {
+  getFeeTables, getListMasterMerchant, getListBanks,
+} from '../../../apis/fee-manager';
 import { callApiCommon } from '../../../apis/commonApi';
 
 class FeeTable extends Component {
@@ -26,34 +28,36 @@ class FeeTable extends Component {
       perPage: CONST_VARIABLE.DEFAULT_PERPAGE,
       totalRow: 0,
       classifySigning: 0,
-      feeCode: '',
       status: 0,
-      listFeeCodes: [],
       isSearch: false,
       paramsSearch: {},
       errorWhenClickAddButton: '',
+      masterMerchants: [],
+      feeBanks: [],
     };
     this.getApiFeeTable = this.getApiFeeTable.bind(this);
-    this.getFeeCodeBase = this.getFeeCodeBase.bind(this);
     this.addButtonAction = this.addButtonAction.bind(this);
     this.searchFee = this.searchFee.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
-    this.handleChangeFeeCode = this.handleChangeFeeCode.bind(this);
+    this.handleChangeMasterMerchant = this.handleChangeMasterMerchant.bind(this);
     this.handleChangeStatus = this.handleChangeStatus.bind(this);
     this.handleChangeFeeType = this.handleChangeFeeType.bind(this);
     this.handleChangeClassifySigning = this.handleChangeClassifySigning.bind(this);
     this.getDataTableNew = this.getDataTableNew.bind(this);
+    this.getApiMasterMerchant = this.getApiMasterMerchant.bind(this);
+    this.getApiBanks = this.getApiBanks.bind(this);
   }
 
   componentDidMount() {
     this.getApiFeeTable();
-    this.getFeeCodeBase();
+    this.getApiMasterMerchant();
+    this.getApiBanks();
     callApiCommon();
   }
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      perPage, currentPage, feeType, classifySigning, status, feeCode, isSearch,
+      perPage, currentPage, feeType, classifySigning, status, isSearch,
     } = this.state;
     let params = null;
     if (isSearch) {
@@ -63,7 +67,6 @@ class FeeTable extends Component {
         feeType,
         classifySigning,
         status,
-        feeCode,
       };
     } else {
       params = {
@@ -76,17 +79,9 @@ class FeeTable extends Component {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async getDataTableNew(newTableData) {
     this.setState({
       tData: newTableData,
-    });
-  }
-
-  async getFeeCodeBase(params = {}) {
-    const feeCodes = await getFeeCode(params);
-    this.setState({
-      listFeeCodes: feeCodes.list,
     });
   }
 
@@ -105,19 +100,40 @@ class FeeTable extends Component {
     });
   }
 
-  // eslint-disable-next-line react/sort-comp
-  handlePageChange(pageNumber) {
-    this.setState({ currentPage: pageNumber });
+  async getApiMasterMerchant(params) {
+    const masterMerchant = await getListMasterMerchant(params);
+    this.setState({
+      masterMerchants: masterMerchant.list,
+    });
   }
 
-  handleChangeFeeCode = (newValue) => {
+  async getApiBanks(params) {
+    const feeBank = await getListBanks(params);
+    this.setState({
+      feeBanks: feeBank && feeBank.list,
+    });
+  }
+
+  handleChangeMasterMerchant = (newValue) => {
     if (newValue !== null && newValue !== 'undefined') {
       this.setState({
-        feeCode: newValue.value,
+        masterMerchants: newValue.masterMerchantName,
       });
     } else {
       this.setState({
-        feeCode: '',
+        masterMerchants: '',
+      });
+    }
+  };
+
+  handleChangeBanks = (newValue) => {
+    if (newValue !== null && newValue !== 'undefined') {
+      this.setState({
+        feeBanks: newValue.value,
+      });
+    } else {
+      this.setState({
+        feeBanks: 0,
       });
     }
   };
@@ -158,9 +174,13 @@ class FeeTable extends Component {
     }
   };
 
+  handlePageChange(pageNumber) {
+    this.setState({ currentPage: pageNumber });
+  }
+
   async searchFee() {
     const {
-      perPage, currentPage, feeType, classifySigning, status, feeCode,
+      perPage, currentPage, feeType, classifySigning, status,
     } = this.state;
     this.setState({
       isSearch: true,
@@ -178,7 +198,6 @@ class FeeTable extends Component {
       feeType,
       classifySigning,
       status,
-      feeCode,
     };
 
     const data = await getFeeTables(allParamsSearch);
@@ -189,7 +208,6 @@ class FeeTable extends Component {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   addButtonAction() {
     const { history } = this.props;
     const { tData } = this.state;
@@ -201,14 +219,17 @@ class FeeTable extends Component {
 
   render() {
     const {
-      tData, perPage, currentPage, listFeeCodes,
-      totalRow, paramsSearch, errorWhenClickAddButton,
+      tData, perPage, currentPage, feeBanks,
+      totalRow, paramsSearch, errorWhenClickAddButton, masterMerchants,
     } = this.state;
+    console.log('this.state', this.state);
+    const listMasterMerchants = masterMerchants && masterMerchants.map((item) => ({ value: item.masterMerchantCode, label: item.masterMerchantName }));
+    const listfeeBanks = (feeBanks && feeBanks).map((item) => ({ value: item && item.bankCode, label: item && item.bankName }));
     const getFeeType = JSON.parse(localStorage.getItem('FEE_TYPE')) && localStorage.getItem('FEE_TYPE') ? JSON.parse(localStorage.getItem('FEE_TYPE')).map((feeTypeDes, index) => ({ value: parseInt(feeTypeDes.code, 10), label: feeTypeDes.description })) : null;
+    console.log('getFeeType', getFeeType);
     const getClassifySigning = JSON.parse(localStorage.getItem('CLASSIFY_SIGNING')) && JSON.parse(localStorage.getItem('CLASSIFY_SIGNING')).map((classify, index) => ({ value: parseInt(classify.code, 10), label: classify.description }));
     const feeStatus = JSON.parse(localStorage.getItem('FEE_STATUS')) && JSON.parse(localStorage.getItem('FEE_STATUS')).map((Status, index) => ({ value: parseInt(Status.code, 10), label: Status.description }));
     const showingOption = `Hiển thị ${currentPage * perPage - perPage + 1} - ${(currentPage * perPage) > totalRow ? totalRow : (currentPage * perPage)} của ${totalRow} bản ghi`;
-    const arrFeeCode = listFeeCodes && listFeeCodes.map((feeCode, index) => ({ value: parseInt(feeCode.feeCode, 10), label: feeCode.feeName }));
     return (
       <div>
         <div className="animated fadeIn">
@@ -220,7 +241,6 @@ class FeeTable extends Component {
                 </Col>
                 <Col lg="7">
                   <CreatableSelect
-                    isClearable
                     onChange={this.handleChangeFeeType}
                     options={getFeeType}
                     placeholder="Tất cả"
@@ -235,7 +255,6 @@ class FeeTable extends Component {
                 </Col>
                 <Col lg="7">
                   <CreatableSelect
-                    isClearable
                     onChange={this.handleChangeClassifySigning}
                     options={getClassifySigning}
                     placeholder="Tất cả"
@@ -246,13 +265,12 @@ class FeeTable extends Component {
             <Col md="6">
               <FormGroup row>
                 <Col lg="5" className="label-left">
-                  <Label htmlFor="code">Mức phí:</Label>
+                  <Label htmlFor="code">MasterMerchant:</Label>
                 </Col>
                 <Col lg="7">
                   <CreatableSelect
-                    isClearable
-                    onChange={this.handleChangeFeeCode}
-                    options={arrFeeCode}
+                    onChange={this.handleChangeMasterMerchant}
+                    options={listMasterMerchants}
                     placeholder="Tất cả"
                   />
                 </Col>
@@ -265,7 +283,6 @@ class FeeTable extends Component {
                 </Col>
                 <Col lg="7">
                   <CreatableSelect
-                    isClearable
                     onChange={this.handleChangeStatus}
                     options={feeStatus}
                     placeholder="Tất cả"
@@ -273,6 +290,21 @@ class FeeTable extends Component {
                 </Col>
               </FormGroup>
             </Col>
+            <Col md="6">
+              <FormGroup row>
+                <Col lg="5" className="label-left">
+                  <Label htmlFor="code">Đơn vị TT:</Label>
+                </Col>
+                <Col lg="7">
+                  <CreatableSelect
+                    onChange={this.handleChangeBanks}
+                    options={listfeeBanks}
+                    placeholder="Tất cả"
+                  />
+                </Col>
+              </FormGroup>
+            </Col>
+            <Col className="clearfix" />
             <Col md="6" className="mb-3 mt-3">
               <FormGroup row>
                 <Col className="text-right btn-search">
@@ -305,6 +337,7 @@ class FeeTable extends Component {
           </Row>
           <Table
             tableData={tData}
+            feeBanks={feeBanks}
             paramsSearch={paramsSearch}
             key={1}
             getDataTableNew={this.getDataTableNew}
@@ -402,10 +435,8 @@ export default withRouter(FeeTable);
 
 FeeTable.propTypes = {
   history: PropTypes.object,
-  match: PropTypes.object,
 };
 
 FeeTable.defaultProps = {
   history: '/fee/list',
-  match: {},
 };

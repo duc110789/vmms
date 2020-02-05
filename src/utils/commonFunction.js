@@ -16,6 +16,20 @@ export const getTypeNameFee = (arrFeeType, itemCode) => {
   return nameType;
 };
 
+export const getbankCode = (arrbankCode, itemCode) => {
+  let bankType = 'Không có dữ liệu hợp lệ.';
+  if (arrbankCode && arrbankCode.length > 0) {
+    // eslint-disable-next-line no-unused-expressions
+    arrbankCode.map((item) => {
+      if (parseInt(item.bankCode, 10) === parseInt(itemCode, 10) || item.bankCode === itemCode) {
+        bankType = item.bankName;
+      }
+      return bankType;
+    });
+  }
+  return bankType;
+};
+
 const renderUIStatus = (code, name) => {
   switch (code) {
     case 1:

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import ModalLockFee from './ModalLockFee';
 import { getFeeTables } from '../../../apis/fee-manager';
-import { getTypeNameFee } from '../../../utils/commonFunction';
+import { getTypeNameFee, convertValueToString } from '../../../utils/commonFunction';
 import CONST_VARIABLE from '../../../utils/constants';
 
 function Table(props) {
@@ -14,6 +14,8 @@ function Table(props) {
     history,
     paramsSearch,
     getDataTableNew,
+    feeBanks,
+    masterMerchants,
   } = props;
 
   const getFeeType = JSON.parse(localStorage.getItem('FEE_TYPE'));
@@ -60,6 +62,8 @@ function Table(props) {
           <tr>
             <th>STT</th>
             <th>Loại phí</th>
+            <th>Đơn vị TT</th>
+            <th>MasterMerchant</th>
             <th>Phân loại ký kết</th>
             <th>Số lượng mức phí</th>
             <th>Trạng thái</th>
@@ -70,18 +74,20 @@ function Table(props) {
           {
             tableData && tableData.map((data, index) => (
               data.status !== 3 && (
-                <tr key={data.rowNum}>
-                  <td className="text-center">{data.rowNum}</td>
+                <tr key={data && data.rowNum}>
+                  <td className="text-center">{data && data.rowNum}</td>
                   <td>
-                    {getTypeNameFee(getFeeType, data.feeType)}
+                    {getTypeNameFee(getFeeType, data && data.feeType)}
                   </td>
+                  <td>{getTypeNameFee(feeBanks, data && data.bankCode)}</td>
+                  <td>{getTypeNameFee(masterMerchants, data && data.masterMcCode)}</td>
                   <td>
-                    {getTypeNameFee(getClassifySigning, data.classifySigning)}
+                    {getTypeNameFee(getClassifySigning, data && data.classifySigning)}
                   </td>
-                  <td>{data.countFeeCode}</td>
+                  <td>{data && data.countFeeCode}</td>
                   <td>
                     <span className={checkColorStatus(data.status)}>
-                      {getTypeNameFee(feeStatus, data.status)}
+                      {getTypeNameFee(feeStatus, data && data.status)}
                     </span>
                   </td>
                   <td className="icon-fee text-left">
@@ -162,6 +168,8 @@ Table.propTypes = {
   tableData: PropTypes.array.isRequired,
   paramsSearch: PropTypes.object,
   getDataTableNew: PropTypes.func,
+  feeBanks: PropTypes.array.isRequired,
+  masterMerchants: PropTypes.array.isRequired,
 };
 
 Table.defaultProps = {
