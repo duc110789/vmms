@@ -53,6 +53,11 @@ const PaymentDetail = React.lazy(() => import('./containers/PaymentManagers/Paym
 
 const VmmsFeeManagerList = React.lazy(() => import('./containers/VmmsFeeManagers/VmmsFeeManagerList'));
 
+const VmmsMasterMerchantList = React.lazy(() => import('./containers/VmmsMasterMerchant/VmmsListPage'));
+
+const VmmsMasterMerchantDetail = React.lazy(() => import('./containers/VmmsMasterMerchant/VmmsDetailPage'));
+
+const VmmsMasterMerchantApproval = React.lazy(() => import('./containers/VmmsMasterMerchant/VmmsApprovalPage'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -148,6 +153,15 @@ const routes = [
   },
   {
     path: '/vmms/fee/list', exact: true, name: 'Quản lý bảng phí', component: VmmsFeeManagerList,
+  },
+  {
+    path: '/vmms/masterMerchant/list', exact: true, name: 'Quản lý MasterMerchant', component: VmmsMasterMerchantList,
+  },
+  {
+    path: '/vmms/masterMerchant/detail/:id', exact: true, name: 'Thông tin chi tiết', component: VmmsMasterMerchantDetail,
+  },
+  {
+    path: '/vmms/masterMerchant/approval/:id', exact: true, name: 'Thông tin chi tiết', component: VmmsMasterMerchantApproval,
   },
 ];
 

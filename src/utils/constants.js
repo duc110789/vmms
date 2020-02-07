@@ -5,6 +5,7 @@ const CONST_VARIABLE = {
   EMPTY_DATA: 'Không có dữ liệu hợp lệ',
   DELETE_DATA: 'Bạn có chắc chắn xóa mức phí này?',
   DELETE_DATA_MERCHANT: 'Bạn có chắc chắn xóa merchant này?',
+  DELETE_DATA_BANKS: 'Bạn có chắc chắn muốn xóa?',
   DEFAULT_PERPAGE: 5,
   MAX_FILE_SIZE_UPLOAD: 5242880,
   PAGE_OPTION: [

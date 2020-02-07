@@ -21,7 +21,7 @@ CoreUI-React#v2.0.0
 │   ├── views/       (views source)
 │   ├── App.js
 │   ├── App.test.js
-│   ├── index.js
+│   ├── ListPage.js
 │   ├── _nav.js      (sidebar config)
 │   └── routes.js    (routes config)
 │

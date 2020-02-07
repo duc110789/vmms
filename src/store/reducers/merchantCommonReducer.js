@@ -11,6 +11,9 @@ const inititalState = {
   isOpenInfo: false,
   listApplyType: [],
   listBanks: [],
+  listMcc: [],
+  listFeeCodeFeeNameVmms: [],
+  listMccNational: [],
 };
 
 function MerchantCommonReducer(state = inititalState, action) {
@@ -88,6 +91,55 @@ function MerchantCommonReducer(state = inititalState, action) {
     case constants.LIST_BANKS_SUCCESS:
       return { ...state, listBanks: action.listBanks };
     case constants.LIST_BANKS_FAILED:
+      return { ...state };
+
+    case constants.LIST_MCC:
+      return { ...state };
+    case constants.LIST_MCC_SUCCESS:
+      return { ...state, listMcc: action.listMcc };
+    case constants.LIST_MCC_FAILED:
+      return { ...state };
+
+    case constants.FEE_CODE_FEE_NAME_VMMS:
+      return { ...state };
+    case constants.FEE_CODE_FEE_NAME_VMMS_SUCCESS:
+      return { ...state, listFeeCodeFeeNameVmms: action.listFeeCodeFeeNameVmms };
+    case constants.FEE_CODE_FEE_NAME_VMMS_FAILED:
+      return { ...state };
+
+    case constants.ADD_MCC_NATIONAL:
+      return { ...state, listMccNational: [...state.listMccNational, ...action.data] };
+
+    case constants.REMOVE_MCC_NATIONAL:
+      for (let i = 0; i < state.listMccNational.length; i += 1) {
+        if (i === action.data.index) {
+          state.listMccNational.splice(i, 1);
+        }
+      }
+      for (let i = action.data.data.mccNational.length - 1; i >= 0; i -= 1) {
+        state.listMcc.push({
+          mccCode: action.data.data.mccNational[i].value,
+          mccName: action.data.data.mccNational[i].label,
+        });
+      }
+      return {
+        ...state,
+        listFeeCodeFeeNameVmms: [...state.listFeeCodeFeeNameVmms, ...[{
+          feeCode: action.data.data.feeCodeAndFeeName.value,
+          feeName: action.data.data.feeCodeAndFeeName.feeName,
+        }]],
+      };
+
+    case constants.APPLY_MCC_NATIONAL:
+      for (let i = action.data.mccNational.length - 1; i >= 0; i -= 1) {
+        state.listMcc.splice(action.data.mccNational[i].key, 1);
+      }
+
+      for (let i = 0; i < state.listFeeCodeFeeNameVmms.length; i += 1) {
+        if (i === action.data.feeCodeAndFeeName.key) {
+          state.listFeeCodeFeeNameVmms.splice(action.data.feeCodeAndFeeName.key, 1);
+        }
+      }
       return { ...state };
   }
   return state;

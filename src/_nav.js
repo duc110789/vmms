@@ -26,6 +26,10 @@ export default {
           name: 'Phí VNPAY trả Đơn vị thanh toán',
           url: '/fee-payment/list',
         },
+        {
+          name: 'Quản lý phí VN PAY thu MasterMerchant',
+          url: '/vmms/masterMerchant/list',
+        },
       ],
     },
   ],

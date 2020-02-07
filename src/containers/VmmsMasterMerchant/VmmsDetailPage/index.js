@@ -10,8 +10,7 @@ import {
   Card,
 } from 'reactstrap';
 
-import MerchantApply from '../../../components/PaymentFee/PaymentAdd/PaymentApply';
-import InfoGeneral from '../../../components/PaymentFee/PaymentAdd/InfoGeneral';
+import DetailPage from '../../../components/VmmsMasterMerchant/DetailPage/DetailPage';
 
 class index extends Component {
   constructor(props) {
@@ -27,14 +26,13 @@ class index extends Component {
             <Col xs="12">
               <FormGroup style={{ marginBottom: 0 }} row>
                 <Col lg="6" style={{ paddingLeft: 0 }}>
-                  <span className="text-bold">Thêm mới phí thu</span>
+                  <span className="text-bold">CHI TIẾT</span>
                 </Col>
               </FormGroup>
             </Col>
           </CardHeader>
           <CardBody>
-            <InfoGeneral />
-            <MerchantApply />
+            <DetailPage />
           </CardBody>
         </Card>
       </div>

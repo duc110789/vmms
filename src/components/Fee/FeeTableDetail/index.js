@@ -120,7 +120,6 @@ class FeeTableDetail extends React.Component {
   }
 
   render() {
-    console.log('abc');
     const {
       feeType,
       classifySigning,
@@ -139,10 +138,14 @@ class FeeTableDetail extends React.Component {
 
     let createUser = null;
     let createDate = null;
+    let bankCode = null;
+    let masterMcCode = null;
 
     if (listObject && listObject.length > 0) {
       createUser = listObject[0].createUser;
       createDate = listObject[0].createDate;
+      bankCode = listObject[0].bankCode;
+      masterMcCode = listObject[0].masterMcCode;
     }
 
     const itemModify = getInfoUser(listObject, 1);
@@ -190,6 +193,26 @@ class FeeTableDetail extends React.Component {
                                     <Label>
                                       <b>
                                         {feeTypeDisplay}
+                                      </b>
+                                    </Label>
+                                  </div>
+                                </div>
+                                <div className="form-group">
+                                  <Label className="col-sm-4 control-label p_top">Đơn vị TT</Label>
+                                  <div className="col-sm-8">
+                                    <Label>
+                                      <b>
+                                        {bankCode}
+                                      </b>
+                                    </Label>
+                                  </div>
+                                </div>
+                                <div className="form-group">
+                                  <Label className="col-sm-4 control-label p_top">MasterMerchant</Label>
+                                  <div className="col-sm-8">
+                                    <Label>
+                                      <b>
+                                        {masterMcCode}
                                       </b>
                                     </Label>
                                   </div>

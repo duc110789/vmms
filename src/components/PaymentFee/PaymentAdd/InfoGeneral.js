@@ -14,19 +14,9 @@ import {
 import CreatableSelect from 'react-select/creatable';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import MultiSelect from '../../common/MultiSelect';
-import {
-  Option,
-  MultiValue,
-  ValueContainer,
-  animatedComponents,
-} from '../../common/CheckboxMultiSelect';
+
 import { getClassifySigning, getListBank } from '../../../store/actions/actionMerchantCommon';
-import { getListMerchantByClassify, getInfoGeneralMerchant } from '../../../store/actions/actionAddMerchant';
-import {
-  loadTypeChannel,
-  loadTypeSource,
-} from '../../../store/actions/actionMerchantList';
+import { getInfoGeneralMerchant } from '../../../store/actions/actionAddMerchant';
 
 class InfoGeneral extends Component {
   constructor(props) {
@@ -37,13 +27,9 @@ class InfoGeneral extends Component {
       signingDate: new Date(),
       applyDate: new Date(),
       expirationDate: new Date(),
-      payChannel: null,
-      typeSource: null,
       arrListClassify: [],
       contractNumber: '',
-      feeCodeAndFeeName: '',
-      payChannelSet: null,
-      typePayment: null,
+      unitPayment: '',
       activeFieldInfoGeneral: false,
     };
   }
@@ -51,41 +37,21 @@ class InfoGeneral extends Component {
   componentDidMount() {
     const {
       getClassifySigning,
-      loadTypeChannel,
-      loadTypeSource,
       getListBank,
     } = this.props;
     getClassifySigning();
-    loadTypeChannel();
-    loadTypeSource();
     getListBank();
   }
 
   static getDerivedStateFromProps(props) {
     const {
       classifySigning,
-      payChannel,
-      typeSource,
       listMerchantByClassify,
       listBanks,
     } = props;
 
-    const updateListBanks = [{ value: '00', label: 'Tất cả' }];
-    const updateChannel = [];
-    const updateSource = [];
+    const updateListBanks = [{ value: '0', label: 'Tất cả' }];
     const tempArrListClassify = [];
-
-    if (typeSource) {
-      for (let i = 0; i < typeSource.length; i += 1) {
-        updateSource.push({ value: typeSource[i].code, label: typeSource[i].description });
-      }
-    }
-
-    if (payChannel) {
-      for (let i = 0; i < payChannel.length; i += 1) {
-        updateChannel.push({ value: payChannel[i].code, label: payChannel[i].description });
-      }
-    }
 
     if (listMerchantByClassify) {
       for (let i = 0; i < listMerchantByClassify.length; i += 1) {
@@ -105,8 +71,6 @@ class InfoGeneral extends Component {
     }
     return {
       classifySigning,
-      payChannel: updateChannel,
-      typeSource: updateSource,
       arrListClassify: tempArrListClassify,
       listBanks: updateListBanks,
     };
@@ -117,23 +81,21 @@ class InfoGeneral extends Component {
       optionClassifySigned,
       contractNumber,
       signingDate,
-      feeCodeAndFeeName,
+      unitPayment,
       applyDate,
       expirationDate,
-      typePayment,
-      payChannelSet,
     } = this.state;
     const { getInfoGeneralMerchant, listMerchantLocal } = this.props;
     const infoGeneral = {
       optionClassifySigned,
       contractNumber,
       signingDate: moment(signingDate).format('DD/MM/YYYY 00:00:00'),
-      feeCodeAndFeeName,
+      unitPayment,
       applyDate: moment(applyDate).format('DD/MM/YYYY 00:00:00'),
       expirationDate: moment(expirationDate).format('DD/MM/YYYY 23:59:59'),
-      typePayment,
-      payChannelSet,
     };
+
+    getInfoGeneralMerchant(infoGeneral);
 
     if (prevProps.listMerchantLocal !== listMerchantLocal) {
       if (listMerchantLocal.length > 0) {
@@ -146,15 +108,13 @@ class InfoGeneral extends Component {
         });
       }
     }
-    getInfoGeneralMerchant(infoGeneral);
   }
 
   handleChangeClassifySigned = (classifySignedSelected) => {
-    const { getListMerchantByClassify } = this.props;
     if (classifySignedSelected) {
       this.setState({
         optionClassifySigned: classifySignedSelected,
-      }, () => getListMerchantByClassify(classifySignedSelected.value));
+      });
     }
   };
 
@@ -198,17 +158,11 @@ class InfoGeneral extends Component {
     }
   };
 
-  handleChangeFeeCodeAndFeeName = (feeCodeAndFeeNameSelected) => {
+  handleUnitPayment = (unitPaymentSelected) => {
     this.setState({
-      feeCodeAndFeeName: feeCodeAndFeeNameSelected,
+      unitPayment: unitPaymentSelected,
     });
   };
-
-  handleChangePayChannel = (payChannelSelected) => {
-    this.setState({
-      payChannelSet: payChannelSelected,
-    });
-  }
 
   handleChangeExpirationDate = (expirationDateSelected) => {
     this.setState({
@@ -216,21 +170,12 @@ class InfoGeneral extends Component {
     });
   };
 
-  handleChangeTypePayment = (typePaymentSelected) => {
-    this.setState({
-      typePayment: typePaymentSelected,
-    });
-  };
-
   render() {
     const {
-      typePayment,
       classifySigning,
       signingDate,
       applyDate,
       expirationDate,
-      payChannel,
-      typeSource,
       arrListClassify,
       activeFieldInfoGeneral,
       listBanks,
@@ -264,7 +209,7 @@ class InfoGeneral extends Component {
                   options={listBanks}
                   isValidNewOption={() => false}
                   isClearable
-                  onChange={this.handleChangeFeeCodeAndFeeName}
+                  onChange={this.handleUnitPayment}
                   isDisabled={!!activeFieldInfoGeneral}
                 />
               </Col>
@@ -307,7 +252,6 @@ class InfoGeneral extends Component {
                 <CreatableSelect
                   options={optionsClassifySign}
                   onChange={this.handleChangeClassifySigned}
-                  // isClearable
                   isDisabled={!!activeFieldInfoGeneral}
                 />
                 <Label className="permission-title">
@@ -389,29 +333,19 @@ class InfoGeneral extends Component {
 const mapStateToProps = (state, ownProps) => ({
   listBanks: state.merchantCommon.listBanks,
   classifySigning: state.merchantCommon.classifySigning,
-  payChannel: state.merchantList.payChannel,
-  typeSource: state.merchantList.typeSource,
   listMerchantByClassify: state.addMerchant.listMerchantByClassify,
   listMerchantLocal: state.addMerchant.listMerchantLocal,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getClassifySigning: () => dispatch(getClassifySigning()),
-  loadTypeChannel: () => dispatch(loadTypeChannel()),
-  loadTypeSource: () => dispatch(loadTypeSource()),
-  getListMerchantByClassify: (data) => dispatch(getListMerchantByClassify(data)),
   getInfoGeneralMerchant: (data) => dispatch(getInfoGeneralMerchant(data)),
   getListBank: () => dispatch(getListBank()),
 });
 
 InfoGeneral.propTypes = {
   getClassifySigning: PropTypes.func.isRequired,
-  loadTypeChannel: PropTypes.func.isRequired,
-  loadTypeSource: PropTypes.func.isRequired,
   classifySigning: PropTypes.any,
-  payChannel: PropTypes.any,
-  typeSource: PropTypes.any,
-  getListMerchantByClassify: PropTypes.any,
   listMerchantByClassify: PropTypes.any,
   getInfoGeneralMerchant: PropTypes.any,
   listMerchantLocal: PropTypes.array,
@@ -420,9 +354,6 @@ InfoGeneral.propTypes = {
 };
 InfoGeneral.defaultProps = {
   classifySigning: null,
-  payChannel: null,
-  typeSource: null,
-  getListMerchantByClassify: null,
   listMerchantByClassify: null,
   getInfoGeneralMerchant: null,
   listMerchantLocal: [],

@@ -32,3 +32,11 @@ export const validateFeeMerchant = (params) => axiosCallApi(`${CONFIG_API.FEE_RE
 export const processApproveFeeMerchant = (params) => axiosCallApi(`${CONFIG_API.FEE_REACT_APP_BACKEND_HOST}/vmms/fee-merchant/process`, 'post', params);
 export const updateMerchant = (params) => axiosCallApi(`${CONFIG_API.FEE_REACT_APP_BACKEND_HOST}/vmms/fee-merchant/update-merchant`, 'post', params);
 export const updateFeeMerchant = (params) => axiosCallApi(`${CONFIG_API.FEE_REACT_APP_BACKEND_HOST}/vmms/fee-merchant/update`, 'post', params);
+
+export const getAllBanks = (params) => axiosCallApi(`${CONFIG_API.FEE_REACT_APP_BACKEND_HOST}/vmms/fee/banks`, 'get', params);
+export const getAllMccVmms = (params) => axiosCallApi(`${CONFIG_API.FEE_REACT_APP_BACKEND_HOST}/vmms/fee/mcc-by-mastermc/${params}`, 'get', params);
+export const getFeeCodeAndFeeNameVmms = (params) => axiosCallApi(`${CONFIG_API.FEE_REACT_APP_BACKEND_HOST}/vmms/fee/feecode-by-bank/${params}`, 'get', params);
+export const callApiMasterMerchant = (params) => axiosCallApi(`${CONFIG_API.FEE_REACT_APP_BACKEND_HOST}/vmms/fee/master-merchants`, 'get', params);
+
+export const callApiAllMCC = (params) => axiosCallApi(`${CONFIG_API.FEE_REACT_APP_BACKEND_HOST}/vmms/fee/all-mcc`, 'get', params);
+

@@ -5,6 +5,7 @@ import addMerchant from './addMerchantBySage';
 import editMerchantSaga from './editMerchantSaga';
 import detailMerchantSaga from './detailMerchantSaga';
 import approveMerchantSaga from './approveMerchantSaga';
+import vmmsListPageSaga from './vmmsListPageSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     fork(editMerchantSaga),
     fork(detailMerchantSaga),
     fork(approveMerchantSaga),
+    fork(vmmsListPageSaga),
   ]);
 }

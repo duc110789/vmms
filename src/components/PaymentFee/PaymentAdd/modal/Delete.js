@@ -6,21 +6,18 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import CONST_VARIABLE from '../../../../utils/constants';
-import { storeListMerchantLocal } from '../../../../store/actions/actionAddMerchant';
+import { removeMccNational } from '../../../../store/actions/actionMerchantCommon';
 
 const ModalDeleteFee = (props) => {
   const {
     toggleDeleteFee,
     isShowModalDelete,
     itemDelete,
-    listMerchantLocal,
-    storeListMerchantLocal,
+    removeMccNational,
   } = props;
   const toggle = () => toggleDeleteFee();
-
   const deleteFeeItem = async () => {
-    const newDataTable = listMerchantLocal.filter((item) => item.value !== itemDelete);
-    await storeListMerchantLocal(newDataTable);
+    await removeMccNational(itemDelete);
     toggle();
   };
 
@@ -29,7 +26,7 @@ const ModalDeleteFee = (props) => {
       <Modal isOpen={isShowModalDelete} centered toggle={toggle}>
         <ModalHeader toggle={toggle}><div className="text-center">Thông báo</div></ModalHeader>
         <ModalBody>
-          <div className="text-center">{CONST_VARIABLE.DELETE_DATA_MERCHANT}</div>
+          <div className="text-center">{CONST_VARIABLE.DELETE_DATA_BANKS}</div>
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={toggle}>
@@ -47,31 +44,25 @@ const ModalDeleteFee = (props) => {
   );
 };
 
+
+const mapStateToProps = (state, ownProps) => ({
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  removeMccNational: (data) => dispatch(removeMccNational(data)),
+});
+
 ModalDeleteFee.propTypes = {
   isShowModalDelete: PropTypes.bool.isRequired,
   toggleDeleteFee: PropTypes.func,
-  itemDelete: PropTypes.string,
-  listMerchantLocal: PropTypes.array,
-  storeListMerchantLocal: PropTypes.func,
-
-
+  itemDelete: PropTypes.object,
+  removeMccNational: PropTypes.func,
 };
 
 ModalDeleteFee.defaultProps = {
   toggleDeleteFee: () => {},
-  itemDelete: '',
-  listMerchantLocal: [],
-  storeListMerchantLocal: () => {},
-
+  itemDelete: {},
+  removeMccNational: () => {},
 };
-
-const mapStateToProps = (state, ownProps) => ({
-  listMerchantLocal: state.addMerchant.listMerchantLocal,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  storeListMerchantLocal: (data) => dispatch(storeListMerchantLocal(data)),
-});
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalDeleteFee);

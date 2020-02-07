@@ -32,8 +32,7 @@ class FeeTable extends Component {
       isSearch: false,
       paramsSearch: {},
       errorWhenClickAddButton: '',
-      masterMerchants: [],
-      feeBanks: [],
+      bankCode: '',
     };
     this.getApiFeeTable = this.getApiFeeTable.bind(this);
     this.addButtonAction = this.addButtonAction.bind(this);
@@ -57,7 +56,7 @@ class FeeTable extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const {
-      perPage, currentPage, feeType, classifySigning, status, isSearch,
+      perPage, currentPage, feeType, classifySigning, status, isSearch, bankCode,
     } = this.state;
     let params = null;
     if (isSearch) {
@@ -67,6 +66,7 @@ class FeeTable extends Component {
         feeType,
         classifySigning,
         status,
+        bankCode,
       };
     } else {
       params = {
@@ -103,7 +103,7 @@ class FeeTable extends Component {
   async getApiMasterMerchant(params) {
     const masterMerchant = await getListMasterMerchant(params);
     this.setState({
-      masterMerchants: masterMerchant.list,
+      masterMerchants: masterMerchant && masterMerchant.list,
     });
   }
 
@@ -117,7 +117,7 @@ class FeeTable extends Component {
   handleChangeMasterMerchant = (newValue) => {
     if (newValue !== null && newValue !== 'undefined') {
       this.setState({
-        masterMerchants: newValue.masterMerchantName,
+        masterMerchants: newValue && newValue.label,
       });
     } else {
       this.setState({
@@ -129,16 +129,20 @@ class FeeTable extends Component {
   handleChangeBanks = (newValue) => {
     if (newValue !== null && newValue !== 'undefined') {
       this.setState({
-        feeBanks: newValue.value,
+        feeBanks: newValue && newValue.value,
       });
     } else {
       this.setState({
         feeBanks: 0,
       });
     }
+    this.setState({
+      feeBanks: newValue.value,
+    });
   };
 
   handleChangeStatus = (newValue) => {
+    console.log('newValue', newValue);
     if (newValue !== null && newValue !== 'undefined') {
       this.setState({
         status: newValue.value,
@@ -180,7 +184,7 @@ class FeeTable extends Component {
 
   async searchFee() {
     const {
-      perPage, currentPage, feeType, classifySigning, status,
+      perPage, currentPage, feeType, classifySigning, status, bankCode,
     } = this.state;
     this.setState({
       isSearch: true,
@@ -198,6 +202,7 @@ class FeeTable extends Component {
       feeType,
       classifySigning,
       status,
+      bankCode,
     };
 
     const data = await getFeeTables(allParamsSearch);
@@ -222,11 +227,9 @@ class FeeTable extends Component {
       tData, perPage, currentPage, feeBanks,
       totalRow, paramsSearch, errorWhenClickAddButton, masterMerchants,
     } = this.state;
-    console.log('this.state', this.state);
-    const listMasterMerchants = masterMerchants && masterMerchants.map((item) => ({ value: item.masterMerchantCode, label: item.masterMerchantName }));
-    const listfeeBanks = (feeBanks && feeBanks).map((item) => ({ value: item && item.bankCode, label: item && item.bankName }));
+    const listMasterMerchants = masterMerchants && masterMerchants.map((item) => ({ value: item && item.masterMerchantCode, label: item && item.masterMerchantName }));
+    const listfeeBanks = feeBanks && feeBanks.map((item) => ({ value: item && item.bankCode, label: item && item.bankName }));
     const getFeeType = JSON.parse(localStorage.getItem('FEE_TYPE')) && localStorage.getItem('FEE_TYPE') ? JSON.parse(localStorage.getItem('FEE_TYPE')).map((feeTypeDes, index) => ({ value: parseInt(feeTypeDes.code, 10), label: feeTypeDes.description })) : null;
-    console.log('getFeeType', getFeeType);
     const getClassifySigning = JSON.parse(localStorage.getItem('CLASSIFY_SIGNING')) && JSON.parse(localStorage.getItem('CLASSIFY_SIGNING')).map((classify, index) => ({ value: parseInt(classify.code, 10), label: classify.description }));
     const feeStatus = JSON.parse(localStorage.getItem('FEE_STATUS')) && JSON.parse(localStorage.getItem('FEE_STATUS')).map((Status, index) => ({ value: parseInt(Status.code, 10), label: Status.description }));
     const showingOption = `Hiển thị ${currentPage * perPage - perPage + 1} - ${(currentPage * perPage) > totalRow ? totalRow : (currentPage * perPage)} của ${totalRow} bản ghi`;
@@ -237,7 +240,7 @@ class FeeTable extends Component {
             <Col md="6">
               <FormGroup row>
                 <Col lg="5" className="label-left">
-                  <Label htmlFor="code">Loại phí:</Label>
+                  <Label>Loại phí:</Label>
                 </Col>
                 <Col lg="7">
                   <CreatableSelect
@@ -251,7 +254,7 @@ class FeeTable extends Component {
             <Col md="6">
               <FormGroup row>
                 <Col lg="5" className="label-left">
-                  <Label htmlFor="code">Phân loại ký kết:</Label>
+                  <Label>Phân loại ký kết:</Label>
                 </Col>
                 <Col lg="7">
                   <CreatableSelect
@@ -265,7 +268,7 @@ class FeeTable extends Component {
             <Col md="6">
               <FormGroup row>
                 <Col lg="5" className="label-left">
-                  <Label htmlFor="code">MasterMerchant:</Label>
+                  <Label>MasterMerchant:</Label>
                 </Col>
                 <Col lg="7">
                   <CreatableSelect
@@ -279,7 +282,7 @@ class FeeTable extends Component {
             <Col md="6">
               <FormGroup row>
                 <Col lg="5" className="label-left">
-                  <Label htmlFor="code">Trạng thái:</Label>
+                  <Label>Trạng thái:</Label>
                 </Col>
                 <Col lg="7">
                   <CreatableSelect
@@ -293,7 +296,7 @@ class FeeTable extends Component {
             <Col md="6">
               <FormGroup row>
                 <Col lg="5" className="label-left">
-                  <Label htmlFor="code">Đơn vị TT:</Label>
+                  <Label>Đơn vị TT:</Label>
                 </Col>
                 <Col lg="7">
                   <CreatableSelect

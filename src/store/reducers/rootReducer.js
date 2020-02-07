@@ -6,6 +6,7 @@ import merchantDetailReducer from './merchantDetailReducer';
 import controlModalReducer from './controlModalReducer';
 import editMerchantReducer from './editMerchantReducer';
 import merchantApproveReducer from './merchantApproveReducer';
+import vmmsPageListReducer from './vmmsPageListReducer';
 
 const rootReducer = combineReducers({
   merchantList: merchantListReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   controlModal: controlModalReducer,
   editMerchant: editMerchantReducer,
   merchantApprove: merchantApproveReducer,
+  vmmsPageList: vmmsPageListReducer,
 });
 
 export default rootReducer;

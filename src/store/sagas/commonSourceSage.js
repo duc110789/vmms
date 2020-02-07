@@ -3,8 +3,7 @@ import {
 } from 'redux-saga/effects';
 
 import * as constants from '../constants/MerchantCommonConstant';
-import { getCacheStatusByType } from '../../apis/fee-manager';
-import { getAllBanks } from '../../apis/vmms-fee';
+import { getCacheStatusByType, getAllBanks, getAllMccVmms, getFeeCodeAndFeeNameVmms } from '../../apis/fee-manager';
 
 const apiClassSigning = async () => {
   const data = await getCacheStatusByType({ type: 'CLASSIFY_SIGNING' });
@@ -53,6 +52,16 @@ const apiCalculationForm = async () => {
 
 const apiAllBanks = async () => {
   const data = await getAllBanks();
+  return data;
+};
+
+const apiAllMcc = async (params) => {
+  const data = await getAllMccVmms(params);
+  return data;
+};
+
+const apiFeeCodeFeeName = async (params) => {
+  const data = await getFeeCodeAndFeeNameVmms(params);
   return data;
 };
 
@@ -196,6 +205,33 @@ function* loadAllBanks(actions) {
   }
 }
 
+function* loadAllMcc(actions) {
+  try {
+    const data = yield call(apiAllMcc, actions.data);
+    yield put({
+      type: constants.LIST_MCC_SUCCESS,
+      listMcc: data.list,
+    });
+  } catch (error) {
+    yield put({
+      type: constants.LIST_MCC_FAILED,
+    });
+  }
+}
+function* loadFeeCodeFeeName(actions) {
+  try {
+    const data = yield call(apiFeeCodeFeeName, actions.data);
+    yield put({
+      type: constants.FEE_CODE_FEE_NAME_VMMS_SUCCESS,
+      listFeeCodeFeeNameVmms: data.list,
+    });
+  } catch (error) {
+    yield put({
+      type: constants.FEE_CODE_FEE_NAME_VMMS_FAILED,
+    });
+  }
+}
+
 export default function* commonSourceSage() {
   yield all([
     takeLatest(constants.DENIED_DESC, loadApideniedDesc),
@@ -208,5 +244,7 @@ export default function* commonSourceSage() {
     takeLatest(constants.CALCULATION_FORM, loadCalculationForm),
     takeLatest(constants.APPLY_TYPE_MERCHANT, loadApplyTypeMerchant),
     takeLatest(constants.LIST_BANKS, loadAllBanks),
+    takeLatest(constants.LIST_MCC, loadAllMcc),
+    takeLatest(constants.FEE_CODE_FEE_NAME_VMMS, loadFeeCodeFeeName),
   ]);
 }

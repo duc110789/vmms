@@ -44,3 +44,28 @@ export const getApplyTypeMerchant = () => ({
 export const getListBank = () => ({
   type: constants.LIST_BANKS,
 });
+
+export const getAllMccVmms = (data) => ({
+  type: constants.LIST_MCC,
+  data,
+});
+
+export const getFeeCodeFeeNameVmms = (data) => ({
+  type: constants.FEE_CODE_FEE_NAME_VMMS,
+  data,
+});
+
+export const addMccNational = (data) => ({
+  type: constants.ADD_MCC_NATIONAL,
+  data,
+});
+
+export const removeMccNational = (data) => ({
+  type: constants.REMOVE_MCC_NATIONAL,
+  data,
+});
+
+export const applyListMcc = (data) => ({
+  type: constants.APPLY_MCC_NATIONAL,
+  data,
+});
